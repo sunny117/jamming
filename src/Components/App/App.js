@@ -13,6 +13,13 @@ class App extends React.Component {
       album: '',
       id: ''
     }]
+    this.state.playlistName = 'Test';
+    this.state.playlistTracks = [{
+      name: 'pt1',
+      artist: 'pt2',
+      album: 'pt3',
+      id: 'pt4'
+    }];
   }
   render() {
     return (
@@ -22,7 +29,7 @@ class App extends React.Component {
           <SearchBar/>
           <div className="App-playlist">
             <SearchResults searchResults={this.state.searchResults}/>
-            <Playlist/>
+            <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks}/>
           </div>
         </div>
       </div>
