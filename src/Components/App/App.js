@@ -57,8 +57,10 @@ class App extends React.Component {
     });
   }
   search(term) {
+    const ans = Spotify.Search(term);
+    console.log(ans);
     this.setState({
-      searchResults: Spotify.search(term)
+      searchResults: []
     });
   }
   render() {
