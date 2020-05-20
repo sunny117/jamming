@@ -1,13 +1,11 @@
-import SearchBar from "../Components/SearchBar/SearchBar";
-
 const CLIENT_ID = '165167bfcf5942508af17ba9f47dfbe8';
 const REDIRECT_URI = 'http://localhost:3000/';
-const accessToken = '';
-const expiresIn;
+let accessToken = '';
+let expiresIn;
 
 const Spotify = {
     getAccessToken() {
-        if (accessToken != '') {
+        if (accessToken !== '') {
             return accessToken;
         }
         const url = window.location.href;
@@ -15,7 +13,7 @@ const Spotify = {
         expiresIn = url.match(/expires_in=([^&]*)/);
         window.setTimeout(() => accessToken = '', expiresIn * 1000);
         window.history.pushState('Access Token', null, '/');
-        if (accessToken == '') {
+        if (accessToken === '') {
             window.location.href = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&scope=playlist-modify-public&redirect_uri=${REDIRECT_URI}`;
         }
         return accessToken;
@@ -43,12 +41,12 @@ const Spotify = {
     },
 
     savePlaylist(playlistName,trackURIs) {
-        if (playlistName == '' || trackURIs == '') {
+        if (playlistName === '' || trackURIs === '') {
             return;
         }
         const accessToken = Spotify.getAccessToken();
         const headers = { Authorization: `Bearer ${accessToken}` };
-        const userID = '';
+        let userID = '';
         fetch('https://api.spotify.com/v1/me', {
             'headers': headers
         }).then(response => {
@@ -57,7 +55,7 @@ const Spotify = {
             userID = jsonResponse.id;
         })
 
-        const playlist_id;
+        let playlist_id;
         fetch(`https://api.spotify.com/v1/users/${userID}/playlists`, {
             'headers': headers,
             'method': 'POST',
@@ -69,7 +67,7 @@ const Spotify = {
             playlist_id = jsonResponse.id;
         })
 
-        fetch(`https://api.spotify.com/v1/users/${user_id}/playlists/${playlist_id}/tracks`, {
+        fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlist_id}/tracks`, {
             'headers': headers,
             'method': 'POST',
             'body': 'application/json'
