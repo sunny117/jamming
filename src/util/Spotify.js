@@ -1,6 +1,6 @@
 const CLIENT_ID = '165167bfcf5942508af17ba9f47dfbe8';
 const REDIRECT_URI = 'http://localhost:3000/';
-let accessToken = '';
+let accessToken;
 let expiresIn;
 
 const Spotify = {
@@ -22,6 +22,7 @@ const Spotify = {
     },
 
     Search(term) {
+        const accessToken = Spotify.getAccessToken();
         return fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`, {
             headers: { Authorization: `Bearer ${accessToken}` }
         }).then(response => {

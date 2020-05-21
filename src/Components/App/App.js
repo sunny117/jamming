@@ -23,14 +23,17 @@ class App extends React.Component {
     if (this.state.playlistTracks.find(savedTrack => savedTrack.id === track.id)) {
       return;
     }
+    let tracks = this.state.playlistTracks;
+    tracks.push(track);
     this.setState({
-      playlistTracks: this.state.playlistTracks.push(track)
+      playlistTracks: tracks
     });
   }
   removeTrack(track) {
     if (this.state.playlistTracks.find(savedTrack => savedTrack.id === track.id)) {
+      const tracks = this.state.playlistTracks.filter(item => item !== track)
       this.setState({
-        playlistTracks: this.state.playlistTracks.filter(item => item !== track)
+        playlistTracks: tracks
       })
     }
   }
@@ -41,17 +44,16 @@ class App extends React.Component {
   }
   savePlaylist() {
     const trackURIs = this.state.playlistTracks.map(track => track.uri);
-    Spotify.savePlaylist(this.state.playlistName,trackURIs);
-    this.setState({
-      playlistName: 'New Playlist',
-      playlistTracks: []
+    Spotify.savePlaylist(this.state.playlistName,trackURIs).then(() => {
+      this.setState({
+        playlistName: 'New Playlist',
+        playlistTracks: []
+      });
     });
   }
   search(term) {
-    const ans = Spotify.Search(term);
-    console.log(ans);
-    this.setState({
-      searchResults: []
+    Spotify.Search(term).then(searchResults => {
+      this.setState({searchResults: searchResults})
     });
   }
   render() {
