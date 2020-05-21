@@ -1,5 +1,5 @@
 const CLIENT_ID = '165167bfcf5942508af17ba9f47dfbe8';
-const REDIRECT_URI = 'http://localhost:3000/';
+const REDIRECT_URI = 'https://sunny117.github.io/jamming/';
 let accessToken;
 let expiresIn;
 
